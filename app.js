@@ -13,29 +13,24 @@ const agregarAlListado = () => {
   console.log(tareas);
   localStorage.setItem("tareas", JSON.stringify(tareas));
   mostrarListado();
+  tarea.value = "";
 };
-const mostrarListado = () => {
-  listado.innerHTML = "";
-  tareas.forEach((elemento) => {
-    let element = elemento;
-    const objetolista = document.createElement("li");
-    objetolista.innerHTML = ` <div class="divLi"><input type="checkbox" data-id=${element} class="chk" id="chk"><label id="lbl" for="chk"><p data-p=${element} >${element}</p></label></div><button id="btnLista"> <p>-</p></button>`;
-    listado.append(objetolista);
-  });
-};
-
-if (tareas != []) {
-  mostrarListado();
-}
 
 btnTarea.addEventListener("click", agregarAlListado);
 
-//checkbox funcion
+const elegir = (e) => {
+  const tocado = e.target.getAttribute("data-id");
+  console.log(e);
+  console.log(tocado);
+  tareas = tareas.filter((elemento) => elemento != tocado);
+  localStorage.setItem("tareas", JSON.stringify(tareas));
+  mostrarListado();
+};
 
 const checkear = (e) => {
   const eleccion = e.target.getAttribute("data-id");
   console.log(eleccion);
-
+  console.log(e);
   if (e.target.checked) {
     const pTitulo = document.querySelector(`[data-p="${eleccion}"]`);
     pTitulo.style.textDecoration = "line-through";
@@ -45,8 +40,30 @@ const checkear = (e) => {
   }
 };
 
-const check = document.querySelectorAll("#chk");
+const mostrarListado = () => {
+  listado.innerHTML = "";
+  tareas.forEach((elemento) => {
+    let element = elemento;
+    const objetolista = document.createElement("li");
+    objetolista.innerHTML = ` <div class="divLi"><input type="checkbox" data-id=${element} class="chk" id="chk"><label id="lbl" for="chk"><p data-p=${element} >${element}</p></label></div> <button  data-id=${element} class="btnLista" id="btnLista">-</button>`;
+    listado.append(objetolista);
+  });
+  const boton = document.querySelectorAll("#btnLista");
+  console.log(boton);
+  boton.forEach((btn) => {
+    btn.addEventListener("click", elegir);
+  });
+  const check = document.querySelectorAll("#chk");
+  console.log(check);
+  check.forEach((box) => {
+    box.addEventListener("click", checkear);
+  });
+};
 
-check.forEach((box) => {
-  box.addEventListener("click", checkear);
-});
+if (tareas != []) {
+  mostrarListado();
+}
+
+//checkbox funcion
+
+// boton eliminar funcion

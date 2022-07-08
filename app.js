@@ -10,11 +10,15 @@ let tareas = JSON.parse(localStorage.getItem("tareas")) || [];
 
 const agregarAlListado = () => {
   const anotacion = tarea.value;
-  tareas.push(anotacion);
-  console.log(tareas);
-  localStorage.setItem("tareas", JSON.stringify(tareas));
-  mostrarListado();
-  tarea.value = "";
+  if (anotacion.length <= 0) {
+    alert("No puedes agregar una tarea vacia");
+  } else {
+    tareas.push(anotacion);
+    console.log(tareas);
+    localStorage.setItem("tareas", JSON.stringify(tareas));
+    mostrarListado();
+    tarea.value = "";
+  }
 };
 
 btnTarea.addEventListener("click", agregarAlListado);

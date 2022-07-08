@@ -4,6 +4,7 @@ const btnTarea = document.getElementById("btnTarea");
 const notepad = document.getElementById("notepad");
 const tarea = document.getElementById("tarea");
 const listado = document.getElementById("listado");
+const limpiar = document.getElementById("limpiar");
 
 let tareas = JSON.parse(localStorage.getItem("tareas")) || [];
 
@@ -64,6 +65,8 @@ if (tareas != []) {
   mostrarListado();
 }
 
-//checkbox funcion
-
-// boton eliminar funcion
+limpiar.addEventListener("click", () => {
+  tareas = [];
+  localStorage.setItem("tareas", JSON.stringify(tareas));
+  mostrarListado();
+});
